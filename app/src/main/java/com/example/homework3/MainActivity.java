@@ -31,17 +31,22 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.chucknorris.io").addConverterFactory(GsonConverterFactory.create()).build();
         QuotesService service = retrofit.create(QuotesService.class);
         Call<QuotesLoreResponse> quotesCall = service.getQuotes();
+
         quotesCall.enqueue(new Callback<QuotesLoreResponse>() {
             @Override
             public void onResponse(Call<QuotesLoreResponse> call, Response<QuotesLoreResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "on response: success ");
                     List<Quotes> quotes = response.body().getData();
+                    for (int i = 0; i < quotes.size(); i++) {
+                        mQuotes.setValue(quotes.get(i).getValue());
+                    }
                 } else {
                     Log.d(TAG, "on response : error is " + response.errorBody());
                 }
                 updateUI();
             }
+
 
             @Override
             public void onFailure(Call<QuotesLoreResponse> call, Throwable t) {
@@ -54,12 +59,7 @@ public class MainActivity extends AppCompatActivity {
         if (mQuotes != null){
             mQuotestext = findViewById(R.id.text1);
             mButton = findViewById(R.id.button);
-            mButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mQuotestext.setText(mQuotes.getValue());
-                }
-            });
+            mButton.setOnClickListener(v -> mQuotestext.setText(mQuotes.getValue()));
         }
     }
 }
