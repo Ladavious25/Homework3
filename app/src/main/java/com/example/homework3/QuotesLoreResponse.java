@@ -11,7 +11,6 @@ public class QuotesLoreResponse {
     @SerializedName("info")
     @Expose
     private Info info;
-
     public List<Quotes> getData() {return data;}
     public  void setData(List<Quotes> data) { this.data = data; }
     public Info getInfo(){return info;}

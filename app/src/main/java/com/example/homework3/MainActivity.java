@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private String TAG = "Main Activity";
     public static final String ARG_ITEM_ID = "item id";
-    private Quotes mQuotes;
+    private static Quotes mQuotes;
     private TextView mQuotestext;
     private Button mButton;
 
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.chucknorris.io").addConverterFactory(GsonConverterFactory.create()).build();
         QuotesService service = retrofit.create(QuotesService.class);
         Call<QuotesLoreResponse> quotesCall = service.getQuotes();
@@ -58,14 +57,12 @@ public class MainActivity extends AppCompatActivity {
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mQuotestext.setText(Quotes.);
+                    mQuotestext.setText(mQuotes.getValue());
                 }
             });
         }
     }
 }
-
-
 
 
 

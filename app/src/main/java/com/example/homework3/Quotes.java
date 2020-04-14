@@ -36,7 +36,7 @@ public class Quotes {
         this.categories = categories;
     }
 
-    public static String getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
@@ -83,7 +83,5 @@ public class Quotes {
     public void setValue(String value) {
         this.value = value;
     }
-
-
 
 }
