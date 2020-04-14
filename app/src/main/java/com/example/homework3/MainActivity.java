@@ -28,33 +28,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.chucknorris.io").addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.chucknorris.io/jokes/random/").addConverterFactory(GsonConverterFactory.create()).build();
         QuotesService service = retrofit.create(QuotesService.class);
-        Call<QuotesLoreResponse> quotesCall = service.getQuotes();
-
-        quotesCall.enqueue(new Callback<QuotesLoreResponse>() {
+        Call<Quotes> quotesCall = service.getQuotes();
+        quotesCall.enqueue(new Callback<Quotes>() {
             @Override
-            public void onResponse(Call<QuotesLoreResponse> call, Response<QuotesLoreResponse> response) {
+            public void onResponse(Call<Quotes> call, Response<Quotes> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "on response: success ");
-                    List<Quotes> quotes = response.body().getData();
-                    for (int i = 0; i < quotes.size(); i++) {
-                        mQuotes.setValue(quotes.get(i).getValue());
-                    }
+                    Log.d(TAG,"Checking: " + response.body().getValue());
+                    mQuotes.setValue(response.body().getValue());
                 } else {
                     Log.d(TAG, "on response : error is " + response.errorBody());
                 }
                 updateUI();
             }
-
-
             @Override
-            public void onFailure(Call<QuotesLoreResponse> call, Throwable t) {
+            public void onFailure(Call<Quotes> call, Throwable t) {
                 Log.d(TAG, "onfailure: failure " + t.getLocalizedMessage());
             }
         });
     }
-
     private void updateUI(){
         if (mQuotes != null){
             mQuotestext = findViewById(R.id.text1);
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             mButton.setOnClickListener(v -> mQuotestext.setText(mQuotes.getValue()));
         }
     }
-}
 
+    }
 
 

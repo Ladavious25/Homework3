@@ -5,5 +5,5 @@ import retrofit2.Call;
 
 public interface QuotesService {
     @GET("/jokes/random")
-    Call<QuotesLoreResponse>getQuotes();
+    Call<Quotes>getQuotes();
 }
